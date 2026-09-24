@@ -1,0 +1,36 @@
+No files changed, compilation skipped
+Warning: Detected artifacts built from source files that no longer exist. Run `forge clean` to make sure builds are in sync with project files.
+ - /mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting/src/ClassVesting.t.sol
+ - /mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting/foundry-pp/DeployHelper35.sol
+Script ran successfully.
+
+== Logs ==
+  Token: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+  Vesting: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+  Vesting token balance: 7000
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 31337
+
+Estimated max fee per gas: 2.000000001 gwei
+Estimated base fee per gas: 1 gwei
+Estimated max priority fee per gas: 0.000000001 gwei
+
+Estimated total gas used for script: 1471263
+
+Estimated amount required: 0.002942526001471263 ETH
+
+==========================
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting/broadcast/DeployClassVesting.s.sol/31337/run-latest.json
+
+Sensitive values saved to: /mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting/cache/DeployClassVesting.s.sol/31337/run-latest.json
+

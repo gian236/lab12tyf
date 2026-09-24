@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab 12 — Vesting de clase</title>
+  <style>
+    :root { --ink:#172033; --muted:#5e687b; --line:#dce2eb; --blue:#2457a6; --blue-soft:#edf4ff; --green:#16734a; --green-soft:#eaf8f0; --violet:#7138c8; --gold:#e6a62b; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 8% 5%,#e7efff 0,transparent 28%),radial-gradient(circle at 94% 24%,#f1eaff 0,transparent 25%),#f5f7fb; font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { max-width:1000px; margin:0 auto; padding:48px 24px 72px; }
+    header { position:relative; overflow:hidden; background:linear-gradient(135deg,#142d5b 0%,#245ba9 58%,#7138c8 130%); color:white; border-radius:24px; padding:44px; box-shadow:0 18px 45px #17356830; }
+    header::after { content:""; position:absolute; width:260px; height:260px; right:-90px; top:-110px; border:1px solid #ffffff38; border-radius:50%; box-shadow:0 0 0 24px #ffffff08,0 0 0 52px #ffffff06; }
+    .hero-kicker { position:relative; z-index:1; color:#bcd5ff; text-transform:uppercase; letter-spacing:.18em; font-size:.75rem; font-weight:800; }
+    .hero-bottom { position:relative; z-index:1; display:flex; justify-content:space-between; align-items:end; gap:20px; flex-wrap:wrap; }
+    .status { display:inline-flex; align-items:center; gap:8px; padding:8px 13px; border:1px solid #ffffff42; border-radius:999px; color:#eafff3; background:#ffffff12; font-size:.88rem; }
+    .status::before { content:""; width:8px; height:8px; border-radius:50%; background:#67e39b; box-shadow:0 0 12px #67e39b; }
+    h1 { margin:0 0 8px; font-size:clamp(2rem,5vw,3.4rem); letter-spacing:-.04em; }
+    h2 { display:flex; align-items:center; gap:10px; margin:44px 0 16px; font-size:1.55rem; letter-spacing:-.02em; }
+    h2::before { content:""; width:6px; height:24px; border-radius:8px; background:linear-gradient(var(--blue),var(--violet)); }
+    h3 { margin:24px 0 8px; font-size:1.08rem; }
+    p { margin:10px 0; }
+    .subtitle { color:#dce9ff; font-size:1.12rem; }
+    .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .tag { border:1px solid #ffffff45; border-radius:999px; padding:5px 12px; color:#eef5ff; font-size:.9rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+    .card, section { background:#ffffffd9; border:1px solid var(--line); border-radius:17px; padding:20px; box-shadow:0 7px 20px #2636530c; backdrop-filter:blur(8px); }
+    .card { position:relative; overflow:hidden; }
+    .card::after { content:""; position:absolute; width:80px; height:80px; right:-32px; bottom:-38px; border:12px solid #2457a612; border-radius:50%; }
+    .metric { font-size:2rem; font-weight:800; color:var(--blue); display:block; letter-spacing:-.04em; }
+    .label { color:var(--muted); font-size:.9rem; }
+    table { width:100%; border-collapse:separate; border-spacing:0; background:#ffffffeb; border:1px solid var(--line); border-radius:17px; overflow:hidden; box-shadow:0 7px 20px #26365308; }
+    th,td { text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { background:linear-gradient(90deg,var(--blue-soft),#f5f0ff); color:#244578; font-size:.9rem; }
+    tr:last-child td { border-bottom:0; }
+    code { background:#f0f3f8; border-radius:5px; padding:2px 5px; font: .92em ui-monospace,SFMono-Regular,Consolas,monospace; overflow-wrap:anywhere; }
+    .success { background:var(--green-soft); border-color:#bfe7cf; color:#145c3d; }
+    .hash { font-size:.9rem; word-break:break-all; }
+    .note { color:var(--muted); font-size:.94rem; }
+    .timeline { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:22px; padding:8px 0 4px; }
+    .step { position:relative; padding:16px 18px 10px 0; }
+    .step:not(:last-child)::after { content:""; position:absolute; height:3px; left:34px; right:0; top:29px; background:linear-gradient(90deg,var(--blue),#b9c9e8); }
+    .dot { position:relative; z-index:1; display:grid; place-items:center; width:43px; height:43px; margin-bottom:12px; border:5px solid #e7efff; border-radius:50%; background:var(--blue); color:white; font-weight:800; }
+    .step:nth-child(2) .dot { background:var(--violet); border-color:#eee4ff; }
+    .step:nth-child(3) .dot { background:var(--green); border-color:#dff4e8; }
+    .step strong { display:block; }
+    .step span { color:var(--muted); font-size:.9rem; }
+    .address { display:inline-flex; align-items:center; gap:8px; color:#254b86; font-weight:700; }
+    .address::before { content:"◆"; color:var(--gold); font-size:.65rem; }
+    ul { padding-left:22px; }
+    footer { color:var(--muted); margin-top:38px; border-top:1px solid var(--line); padding-top:18px; font-size:.9rem; }
+    @media (max-width:700px) { header { padding:30px 24px; } main { padding:24px 14px 48px; } th,td { padding:9px; font-size:.92rem; } .timeline { grid-template-columns:1fr; gap:12px; } .step { padding:0 0 8px 60px; } .step:not(:last-child)::after { width:3px; height:32px; left:20px; top:43px; right:auto; } .dot { position:absolute; left:0; top:0; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="hero-kicker">CS031 · Sesión 14 · Tokenomics</div>
+    <div class="hero-bottom">
+      <div>
+        <h1>Lab 12 — Vesting de clase</h1>
+        <div class="subtitle">Una economía on-chain con distribución programada y claims verificables.</div>
+        <div class="meta">
+          <span class="tag">Solidity 0.8.36</span>
+          <span class="tag">OpenZeppelin v5</span>
+          <span class="tag">Foundry 1.8.1</span>
+          <span class="tag">Chain ID 31337</span>
+        </div>
+      </div>
+      <div class="status">Implementación verificada</div>
+    </div>
+  </header>
+
+  <h2>Resumen</h2>
+  <section>
+    <p>El objetivo del laboratorio fue construir una economía de clase con un token ERC-20 de supply fijo y un contrato de vesting que distribuye una allocation individual a siete beneficiaries. Cada wallet recibe una allocation de 1000 tokens, con un desbloqueo inicial en el cliff y liberación lineal del saldo restante.</p>
+    <p>La implementación fue compilada, probada y desplegada en una red local. Posteriormente se ejecutó un claim completo desde una beneficiary y se verificó el balance final.</p>
+  </section>
+
+  <h2>Parámetros económicos</h2>
+  <div class="grid">
+    <div class="card"><span class="metric">7,000</span><span class="label">Supply total</span></div>
+    <div class="card"><span class="metric">7</span><span class="label">Beneficiaries</span></div>
+    <div class="card"><span class="metric">1,000</span><span class="label">Allocation por wallet</span></div>
+    <div class="card"><span class="metric">100 + 900</span><span class="label">Cliff + vesting lineal</span></div>
+  </div>
+  <div class="timeline" aria-label="Calendario de liberación">
+    <div class="step"><div class="dot">0</div><strong>Antes del cliff</strong><span>Releasable: 0 tokens</span></div>
+    <div class="step"><div class="dot">100</div><strong>Cliff</strong><span>Desbloqueo inicial</span></div>
+    <div class="step"><div class="dot">1k</div><strong>End</strong><span>Allocation completamente vested</span></div>
+  </div>
+  <table style="margin-top:16px">
+    <tr><th>Parámetro</th><th>Valor</th></tr>
+    <tr><td>Cliff unlock</td><td><code>100</code> tokens</td></tr>
+    <tr><td>Post-cliff</td><td><code>900</code> tokens liberados linealmente</td></tr>
+    <tr><td>Cliff timestamp</td><td><code>1790186400</code></td></tr>
+    <tr><td>End timestamp</td><td><code>1790272800</code></td></tr>
+    <tr><td>Duración lineal</td><td><code>86400</code> segundos</td></tr>
+  </table>
+
+  <h2>Arquitectura</h2>
+  <section>
+    <h3>ClassToken</h3>
+    <p>ERC-20 basado en OpenZeppelin. El constructor crea exactamente <code>7000</code> tokens. La función <code>decimals()</code> devuelve cero para que los valores económicos se expresen como unidades enteras literales.</p>
+    <h3>ClassVesting</h3>
+    <p>El contrato registra siete beneficiaries y asigna <code>1000</code> tokens a cada una. Antes del cliff, el monto vested es cero. En el cliff se liberan <code>100</code> tokens. Entre el cliff y el final, se suma proporcionalmente el saldo lineal de <code>900</code> tokens. Desde el end, la allocation completa queda vested.</p>
+    <p>La función <code>claim()</code> no recibe una dirección como parámetro: calcula <code>releasable(msg.sender)</code>, actualiza <code>claimedOf[msg.sender]</code> y transfiere únicamente el saldo correspondiente a quien ejecuta la transacción.</p>
+  </section>
+
+  <h2>Contratos desplegados</h2>
+  <table>
+    <tr><th>Contrato</th><th>Address</th></tr>
+    <tr><td>ClassToken</td><td><code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></td></tr>
+    <tr><td>ClassVesting</td><td><code>0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512</code></td></tr>
+  </table>
+  <p class="note">El deploy terminó con ejecución on-chain exitosa. El contrato de vesting quedó financiado con el supply completo de 7000 tokens.</p>
+
+  <h2>Beneficiaries y allocations</h2>
+  <table>
+    <tr><th>#</th><th>Beneficiary</th><th>Allocation</th></tr>
+    <tr><td>1</td><td><code>0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266</code></td><td>1000</td></tr>
+    <tr><td>2</td><td><code>0x70997970C51812dc3A010C7d01b50e0d17dc79C8</code></td><td>1000</td></tr>
+    <tr><td>3</td><td><code>0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC</code></td><td>1000</td></tr>
+    <tr><td>4</td><td><code>0x90F79bf6EB2c4f870365E785982E1f101E93b906</code></td><td>1000</td></tr>
+    <tr><td>5</td><td><code>0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65</code></td><td>1000</td></tr>
+    <tr><td>6</td><td><code>0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc</code></td><td>1000</td></tr>
+    <tr><td>7</td><td><code>0x976EA74026E726554dB657fA54763abd0C3a0aa9</code></td><td>1000</td></tr>
+  </table>
+
+  <h2>Pruebas automatizadas</h2>
+  <section class="success">
+    <strong>Resultado: 15 tests passed · 0 failed · 0 skipped</strong>
+    <p>La suite de vesting ejecutó 13 pruebas y la suite base ejecutó 2 pruebas adicionales.</p>
+  </section>
+  <table style="margin-top:16px">
+    <tr><th>Área</th><th>Resultado</th></tr>
+    <tr><td>Supply total</td><td>7000 verificado</td></tr>
+    <tr><td>Funding del vesting</td><td>7000 verificado</td></tr>
+    <tr><td>Allocations</td><td>7 × 1000 verificado</td></tr>
+    <tr><td>Antes del cliff</td><td>Releasable 0 y claim rechazado</td></tr>
+    <tr><td>Cliff</td><td>100 tokens liberados</td></tr>
+    <tr><td>Mitad del periodo</td><td>550 tokens liberables</td></tr>
+    <tr><td>Final del vesting</td><td>1000 tokens liberables</td></tr>
+    <tr><td>Claim parcial</td><td>550 + 450 = 1000</td></tr>
+    <tr><td>Claim-only-own</td><td>Una beneficiary no puede reclamar la allocation de otra</td></tr>
+    <tr><td>No beneficiary</td><td>Claim rechazado con <code>NothingToClaim</code></td></tr>
+    <tr><td>Claim después del end</td><td>El monto queda limitado a 1000</td></tr>
+    <tr><td>Beneficiaries duplicados</td><td>Constructor rechazado</td></tr>
+  </table>
+
+  <h2>Evidencia del claim</h2>
+  <table>
+    <tr><th>Dato</th><th>Resultado</th></tr>
+    <tr><td>Beneficiary utilizada</td><td><code>0x70997970C51812dc3A010C7d01b50e0d17dc79C8</code></td></tr>
+    <tr><td>Allocation</td><td>1000</td></tr>
+    <tr><td>Releasable antes del claim</td><td>1000</td></tr>
+    <tr><td>Claim amount</td><td>1000</td></tr>
+    <tr><td>Transaction status</td><td>Success</td></tr>
+    <tr><td>Block number</td><td>2</td></tr>
+    <tr><td>Gas used</td><td>80576</td></tr>
+    <tr><td>Transaction hash</td><td class="hash"><code>0x8e400344ac62c80e241a21f41cb50c718889fd406827099bf5ee629f417afe31</code></td></tr>
+    <tr><td>Balance final</td><td>1000</td></tr>
+    <tr><td>claimedOf final</td><td>1000</td></tr>
+  </table>
+
+  <h2>Conclusión</h2>
+  <section>
+    <p>El sistema cumple la economía definida para el laboratorio: el supply completo está depositado en el vesting, cada beneficiary tiene una allocation de 1000 tokens, el calendario libera 100 tokens en el cliff y 900 tokens linealmente durante un día, y el claim está restringido al propio <code>msg.sender</code>.</p>
+    <p>La implementación fue validada mediante pruebas unitarias, gas report, lecturas on-chain y una transacción de claim exitosa con balance final de 1000 tokens.</p>
+  </section>
+
+  <footer>CS031 · Technology &amp; Freedom · Lab 12 · Vesting de clase</footer>
+</main>
+</body>
+</html>

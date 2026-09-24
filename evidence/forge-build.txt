@@ -1,0 +1,299 @@
+Compiling 32 files with Solc 0.8.36
+Solc 0.8.36 finished in 678.98ms
+Compiler run successful!
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  ╭▸ src/ClassVesting.sol:7:29
+  │
+7 │     IERC20 public immutable token;
+  │                             ━━━━━ help: consider using: `TOKEN`
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+warning[empty-block]: empty function body
+   ╭▸ script/Counter.s.sol:10:29
+   │
+10 │     function setUp() public {}
+   │                             ━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/empty-block
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ src/ClassVesting.sol:14:30
+   │
+14 │     uint256 public immutable cliffTimestamp;
+   │                              ━━━━━━━━━━━━━━ help: consider using: `CLIFF_TIMESTAMP`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:26:42
+   │
+26 │         token.transfer(address(vesting), 7_000);
+   │                                          ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:35:83
+   │
+35 │     function test_TotalSupplyIs7000() public view { assertEq(token.totalSupply(), 7_000); }
+   │                                                                                   ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:36:109
+   │
+36 │     function test_VestingContractFundedWith7000() public view { assertEq(token.balanceOf(address(vesting)), 7_000); }
+   │                                                                                                             ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:39:109
+   │
+39 │         for (uint256 i = 0; i < beneficiaries.length; i++) assertEq(vesting.allocationOf(beneficiaries[i]), 1_000);
+   │                                                                                                             ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:48:61
+   │
+48 │         vm.warp(CLIFF); assertEq(vesting.releasable(alice), 100);
+   │                                                             ━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:50:42
+   │
+50 │         assertEq(token.balanceOf(alice), 100); assertEq(vesting.claimedOf(alice), 100);
+   │                                          ━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ src/ClassVesting.sol:15:30
+   │
+15 │     uint256 public immutable endTimestamp;
+   │                              ━━━━━━━━━━━━ help: consider using: `END_TIMESTAMP`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:50:83
+   │
+50 │         assertEq(token.balanceOf(alice), 100); assertEq(vesting.claimedOf(alice), 100);
+   │                                                                                   ━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[custom-errors]: prefer using custom errors on revert and require calls
+   ╭▸ src/ClassVesting.sol:91:9
+   │
+91 │         require(ok, "TRANSFER_FAILED");
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/custom-errors
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:53:62
+   │
+53 │     function test_LinearDuringDay() public { vm.warp(CLIFF + 43_200); assertEq(vesting.releasable(alice), 550); }
+   │                                                              ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:53:107
+   │
+53 │     function test_LinearDuringDay() public { vm.warp(CLIFF + 43_200); assertEq(vesting.releasable(alice), 550); }
+   │                                                                                                           ━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:56:59
+   │
+56 │         vm.warp(END); assertEq(vesting.releasable(alice), 1_000);
+   │                                                           ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:58:42
+   │
+58 │         assertEq(token.balanceOf(alice), 1_000); assertEq(vesting.claimedOf(alice), 1_000);
+   │                                          ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:58:85
+   │
+58 │         assertEq(token.balanceOf(alice), 1_000); assertEq(vesting.claimedOf(alice), 1_000);
+   │                                                                                     ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:62:25
+   │
+62 │         vm.warp(CLIFF + 43_200); vm.prank(alice); vesting.claim();
+   │                         ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:63:42
+   │
+63 │         assertEq(token.balanceOf(alice), 550); assertEq(vesting.claimedOf(alice), 550);
+   │                                          ━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:63:83
+   │
+63 │         assertEq(token.balanceOf(alice), 550); assertEq(vesting.claimedOf(alice), 550);
+   │                                                                                   ━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:65:42
+   │
+65 │         assertEq(token.balanceOf(alice), 1_000); assertEq(vesting.claimedOf(alice), 1_000);
+   │                                          ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:65:85
+   │
+65 │         assertEq(token.balanceOf(alice), 1_000); assertEq(vesting.claimedOf(alice), 1_000);
+   │                                                                                     ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[erc20-unchecked-transfer]: ERC20 'transfer' and 'transferFrom' calls should check the return value
+   ╭▸ script/DeployClassVesting.s.sol:34:9
+   │
+34 │         token.transfer(address(vesting), 7_000);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/erc20-unchecked-transfer
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:71:40
+   │
+71 │         assertEq(token.balanceOf(bob), 1_000); assertEq(token.balanceOf(alice), 0);
+   │                                        ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:72:42
+   │
+72 │         assertEq(vesting.claimedOf(bob), 1_000); assertEq(vesting.claimedOf(alice), 0);
+   │                                          ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[require-revert-in-loop]: `require` or `revert` inside a loop
+   ╭▸ src/ClassVesting.sol:44:44
+   │
+44 │             if (beneficiary == address(0)) revert InvalidBeneficiary();
+   │                                            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/require-revert-in-loop
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ClassVesting.t.sol:83:42
+   │
+83 │         assertEq(token.balanceOf(alice), 1_000); assertEq(vesting.releasable(alice), 0);
+   │                                          ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[require-revert-in-loop]: `require` or `revert` inside a loop
+   ╭▸ src/ClassVesting.sol:45:49
+   │
+45 │             if (allocationOf[beneficiary] != 0) revert DuplicateBeneficiary();
+   │                                                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/require-revert-in-loop
+
+note[costly-loop]: storage write inside a loop
+   ╭▸ src/ClassVesting.sol:47:13
+   │
+47 │             allocationOf[beneficiary] = ALLOCATION;
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/costly-loop
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ClassVesting.sol:56:13
+   │
+56 │         if (block.timestamp < cliffTimestamp) {
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ClassVesting.sol:60:13
+   │
+60 │         if (block.timestamp >= endTimestamp) {
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+   ╭▸ src/ClassVesting.sol:93:9
+   │
+93 │         emit Claimed(msg.sender, amount);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[erc20-unchecked-transfer]: ERC20 'transfer' and 'transferFrom' calls should check the return value
+   ╭▸ test/ClassVesting.t.sol:26:9
+   │
+26 │         token.transfer(address(vesting), 7_000);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/erc20-unchecked-transfer
+
+warning[calls-loop]: external call inside a loop
+   ╭▸ test/ClassVesting.t.sol:39:69
+   │
+39 │         for (uint256 i = 0; i < beneficiaries.length; i++) assertEq(vesting.allocationOf(beneficiaries[i]), 1_000);
+   │                                                                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/calls-loop
+
+warning[uninitialized-local]: local variable is read before being initialized
+   ╭▸ test/ClassVesting.t.sol:94:60
+   │
+94 │         for (uint256 i = 0; i < beneficiaries.length; i++) total += vesting.allocationOf(beneficiaries[i]);
+   │                                                            ━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/uninitialized-local
+
+warning[calls-loop]: external call inside a loop
+   ╭▸ test/ClassVesting.t.sol:94:69
+   │
+94 │         for (uint256 i = 0; i < beneficiaries.length; i++) total += vesting.allocationOf(beneficiaries[i]);
+   │                                                                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/calls-loop
+
+note[pragma-inconsistent]: 2 different Solidity pragma version requirements are used: 0.8.36, ^0.8.13
+  ╭▸ script/Counter.s.sol:2:1
+  │
+2 │ pragma solidity ^0.8.13;
+  │ ━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/pragma-inconsistent
+

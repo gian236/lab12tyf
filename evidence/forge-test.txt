@@ -1,0 +1,24 @@
+No files changed, compilation skipped
+
+Ran 13 tests for test/ClassVesting.t.sol:ClassVestingTest
+[PASS] test_AllAllocationsEqualTotalSupply() (gas: 93985)
+[PASS] test_CannotClaimOthers() (gas: 125350)
+[PASS] test_ClaimAfterEndRemainsCappedAt1000() (gas: 108397)
+[PASS] test_ClaimPartialThenClaimRemainder() (gas: 216901)
+[PASS] test_CliffUnlocks100() (gas: 121376)
+[PASS] test_DuplicateBeneficiariesRejected() (gas: 22842)
+[PASS] test_EachBeneficiaryHas1000Allocation() (gas: 86353)
+[PASS] test_FullAtEnd() (gas: 120604)
+[PASS] test_LinearDuringDay() (gas: 15630)
+[PASS] test_NonBeneficiaryCannotClaim() (gas: 47070)
+[PASS] test_NothingBeforeCliff() (gas: 51385)
+[PASS] test_TotalSupplyIs7000() (gas: 7614)
+[PASS] test_VestingContractFundedWith7000() (gas: 9897)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 2.18ms (4.40ms CPU time)
+
+Ran 2 tests for test/Counter.t.sol:CounterTest
+[PASS] testFuzz_SetNumber(uint256) (runs: 256, μ: 51597, ~: 51687)
+[PASS] test_Increment() (gas: 51512)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 480.26ms (480.92ms CPU time)
+
+Ran 2 test suites in 500.99ms (482.45ms CPU time): 15 tests passed, 0 failed, 0 skipped (15 total tests)
