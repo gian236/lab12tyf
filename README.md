@@ -1,63 +1,122 @@
-# Lab 12 — Class Vesting
+## Foundry
 
-Vesting de clase para CS031 Technology & Freedom. El token usa `decimals() = 0`, por lo que los valores del laboratorio son literales.
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-## Economía
+Foundry consists of:
 
-- Supply total: `7000` CS031.
-- Beneficiarios: 7, con `1000` tokens por wallet.
-- Cliff: `1790186400`; libera `100` tokens.
-- Vesting lineal: `900` tokens durante `86400` segundos.
-- Final: `1790272800`.
+- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-`claim()` siempre usa `msg.sender`; una cuenta no registrada no puede retirar tokens de otra cuenta.
+## Documentation
 
-## Arquitectura
+https://book.getfoundry.sh/
 
-`ClassToken` es un ERC-20 de OpenZeppelin v5. `ClassVesting` registra una allocation por beneficiary, calcula el saldo liberado y transfiere solamente el saldo reclamable. El script despliega el token, despliega el vesting y deposita los `7000` tokens.
+## Usage
 
-## Tests
+### Build
 
-```bash
-forge test -vv
-forge test --gas-report
+```shell
+$ forge build
 ```
 
-La suite cubre supply, funding, allocations, cliff, linealidad, claims parciales y posteriores, final, claims-only-own, no beneficiarios, duplicados y suma total.
+### Test
 
-## Deploy local
+```shell
+$ forge test
+```
 
-Con Anvil ejecutándose en `http://127.0.0.1:8545`:
+### Format
 
-```bash
-forge script script/DeployClassVesting.s.sol:DeployClassVesting \
-  --rpc-url http://127.0.0.1:8545 \
-  --private-key "$ANVIL_PRIVATE_KEY" \
+```shell
+$ forge fmt
+```
+
+### Gas Snapshots
+
+```shell
+$ forge snapshot
+```
+
+### Anvil
+
+```shell
+$ anvil
+```
+
+### Deploy
+
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
+
+
+
+
+
+gian@gian:/mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting$ forge script script/DeployClassVesting.s.sol:DeployClassVesting \
+  --rpc-url $RPC_URL \
+  --private-key $PRIVATE_KEY \
   --broadcast
-```
+[⠔] Compiling...
+[⠊] Compiling 1 files with Solc 0.8.36
+[⠒] Solc 0.8.36 finished in 388.48ms
+Compiler run successful!
+Script ran successfully.
 
-No se guardan private keys en el repositorio. Para Sepolia:
+== Logs ==
+  Token: 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+  Vesting: 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
+  Vesting token balance: 7000
 
-```bash
-forge script script/DeployClassVesting.s.sol:DeployClassVesting \
-  --rpc-url "$SEPOLIA_RPC_URL" --private-key "$SEPOLIA_PRIVATE_KEY" \
-  --broadcast --verify
-```
+## Setting up 1 EVM.
 
-## Deploy local conocido
+==========================
 
-- Token: `0x5FbDB2315678afecb367f032d93F642f64180aa3`
-- Vesting: `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512`
-- Chain ID: `31337`
+Chain 31337
 
-Comprobaciones:
+Estimated max fee per gas: 2.000000001 gwei
+Estimated base fee per gas: 1 gwei
+Estimated max priority fee per gas: 0.000000001 gwei
 
-```bash
-cast call "$VESTING" "allocationOf(address)(uint256)" "$BENEFICIARY" --rpc-url http://127.0.0.1:8545
-cast call "$VESTING" "releasable(address)(uint256)" "$BENEFICIARY" --rpc-url http://127.0.0.1:8545
-cast send "$VESTING" "claim()" --rpc-url http://127.0.0.1:8545 --private-key "$BENEFICIARY_PRIVATE_KEY"
-cast call "$TOKEN" "balanceOf(address)(uint256)" "$BENEFICIARY" --rpc-url http://127.0.0.1:8545
-cast call "$VESTING" "claimedOf(address)(uint256)" "$BENEFICIARY" --rpc-url http://127.0.0.1:8545
-```
+Estimated total gas used for script: 1475046
 
-Al final del vesting, la beneficiary utilizada en la prueba local recibió `1000` y `claimedOf` quedó en `1000`. El transaction hash depende de la sesión de Anvil activa y debe capturarse al ejecutar el `cast send`.
+Estimated amount required: 0.002950092001475046 ETH
+
+==========================
+                                                                                                      ##### anvil-hardhat                                                                                   ✅  [Success] Hash: 0x3e67b9ab7b9634a6f62d3f2c55df9874495d9581ef05419d5c43f706d1b6a74f                Contract: ClassToken                                                                                  Contract Address: 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9                                          Block: 2                                                                                              
+Paid: 0.00048133493674601 ETH (544246 gas * 0.884406935 gwei)                                         
+                                                                                                      
+                                                                                                      ##### anvil-hardhat                                                                                   ✅  [Success] Hash: 0x701afe1993e2ee154bba26f88976b1d16e77bd8c4fc681af4804b522d6107b3c                Contract: ClassToken                                                                                  Function: transfer(address,uint256)                                                                   
+Contract Address: 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9                                          
+Block: 2                                                                                              
+Paid: 0.000475642009305415 ETH (537809 gas * 0.884406935 gwei)                                        
+                                                                                                      
+                                                                                                      ##### anvil-hardhat                                                                                   ✅  [Success] Hash: 0x0f317be767b27faa99ca7b9a4471fe95e2fa3209b2c5f295be1a6c208487b794                Contract: ClassVesting                                                                                
+Block: 2                                                                                              
+Paid: 0.000041348677432055 ETH (46753 gas * 0.884406935 gwei)                                         Paid: 0.000041348677432055 ETH (46753 gas * 0.884406935 gwei)                                         Paid: 0.000041348677432055 ETH (46753 gas * 0.884406935 gwei)                                         Paid: 0.000041348677432055 ETH (46753 gas * 0.884406935 gwei)                                         Paid: 0.000041348677432055 ETH (46753 gas * 0.884406935 gwei)                                         Paid: 0.000041348677432055 ETH (46753 gas * 0.884406935 gwei)                                                                                                                                               ✅ Sequence #1 on anvil-hardhat | Total Paid: 0.00099832562348348 ETH (1128808 gas * avg 0.884406935 gwei)                                                                                                  
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting/broadcast/DeployClassVesting.s.sol/31337/run-latest.json
+
+Sensitive values saved to: /mnt/c/Users/gianp/OneDrive/Escritorio/Semestre_8/TechFreedom/Lab12/lab12-class-vesting/cache/DeployClassVesting.s.sol/31337/run-latest.json
+
